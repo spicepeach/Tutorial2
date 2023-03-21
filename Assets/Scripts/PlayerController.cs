@@ -2,21 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rd2d;
 
+    private int count;
+
+    public TextMeshProUGUI countText;
+
     public float speed;
 
-    public Text score;
 
-    private int scoreValue = 0;
+    //private int scoreValue = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         rd2d = GetComponent<Rigidbody2D>();
-        score.text = scoreValue.ToString();
+        //score.text = scoreValue.ToString();
+        count = 0;
+
+        SetCountText();
     }
 
     // Update is called once per frame
@@ -31,11 +38,16 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.tag == "Coin")
         {
-            scoreValue += 1;
-            score.text = scoreValue.ToString();
+            count = count + 1;
+            SetCountText();
             Destroy(collision.collider.gameObject);
         }
 
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Score: " + count.ToString();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
