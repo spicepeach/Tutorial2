@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rd2d;
 
     private int count;
+    private int lives;
 
     public TextMeshProUGUI countText;
+    public TextMeshProUGUI livesText;
+
+    public GameObject winTextObject;
+    public GameObject loseTextObject;
+    public GameObject playAgainButton;
 
     public float speed;
 
@@ -22,8 +29,14 @@ public class PlayerController : MonoBehaviour
         rd2d = GetComponent<Rigidbody2D>();
         //score.text = scoreValue.ToString();
         count = 0;
+        lives = 3;
 
         SetCountText();
+        SetLivesText();
+
+        winTextObject.SetActive(false);
+        loseTextObject.SetActive(false);
+        playAgainButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,18 +49,53 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Coin")
+        if (collision.collider.tag == "Enemy")
+        {
+            lives = lives - 1;
+            SetLivesText();
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coin")
         {
             count = count + 1;
             SetCountText();
-            Destroy(collision.collider.gameObject);
+            collision.gameObject.SetActive(false);
         }
-
     }
 
     void SetCountText()
     {
         countText.text = "Score: " + count.ToString();
+
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniGame") && count >= 12)
+        {
+            SceneManager.LoadScene("Level2");
+            lives = 3;
+        }
+        else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level2") && count >= 11)
+        {
+            winTextObject.SetActive(true);
+            playAgainButton.SetActive(true);
+            this.gameObject.SetActive(false);
+        }
+    }
+
+
+
+    void SetLivesText()
+    {
+        livesText.text = "Lives: " + lives.ToString();
+
+        if (lives <= 0)
+        {
+            loseTextObject.SetActive(true);
+            playAgainButton.SetActive(true);
+            this.gameObject.SetActive(false);
+        } 
     }
 
     private void OnCollisionStay2D(Collision2D collision)
