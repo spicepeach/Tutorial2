@@ -20,6 +20,13 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
 
+    public GameObject backgroundMusic;
+    public GameObject winMusic;
+
+    Animator anim;
+    SpriteRenderer sprite;
+    bool grounded;
+
 
     //private int scoreValue = 0;
 
@@ -28,32 +35,80 @@ public class PlayerController : MonoBehaviour
     {
         rd2d = GetComponent<Rigidbody2D>();
         //score.text = scoreValue.ToString();
+
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         count = 0;
         lives = 3;
 
         SetCountText();
         SetLivesText();
 
+        winMusic.SetActive(false);
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false);
         playAgainButton.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.D))
+        {
+            sprite.flipX = false;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            sprite.flipX = true;
+        }
+
+        if (grounded)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                anim.SetInteger("State", 2);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                anim.SetInteger("State", 1);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                anim.SetInteger("State", 1);
+            }
+            else
+            {
+                anim.SetInteger("State", 0);
+            }
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         float hozMovement = Input.GetAxis("Horizontal");
-        float vertMovement = Input.GetAxis("Vertical");
-        rd2d.AddForce(new Vector2(hozMovement * speed, vertMovement * speed));
+        rd2d.velocity = new Vector2(hozMovement * speed, rd2d.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.tag == "Ground")
+        {
+            grounded = true;
+        }
+
         if (collision.collider.tag == "Enemy")
         {
             lives = lives - 1;
             SetLivesText();
             collision.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Ground")
+        {
+            grounded = false;
         }
     }
 
@@ -71,16 +126,19 @@ public class PlayerController : MonoBehaviour
     {
         countText.text = "Score: " + count.ToString();
 
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniGame") && count >= 12)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level1") && count >= 4)
         {
             SceneManager.LoadScene("Level2");
             lives = 3;
         }
-        else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level2") && count >= 11)
+        else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level2") && count >= 4)
         {
+            backgroundMusic.SetActive(false);
+            winMusic.SetActive(true);
+
             winTextObject.SetActive(true);
             playAgainButton.SetActive(true);
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
     }
 
@@ -104,7 +162,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse); //the 3 in this line of code is the player's "jumpforce," and you change that number to get different jump behaviors.  You can also create a public variable for it and then edit it in the inspector.
+                rd2d.AddForce(new Vector2(0, 4), ForceMode2D.Impulse);
             }
         }
     }

@@ -13,11 +13,13 @@ UnityEngine.AnimationCurve::Internal_Destroy
 UnityEngine.Animations.AnimationLayerMixerPlayable::SetSingleLayerOptimizationInternal
 UnityEngine.Animator::get_hasBoundPlayables
 UnityEngine.Animator::ResetTriggerString
+UnityEngine.Animator::SetIntegerString
 UnityEngine.Animator::SetTriggerString
 UnityEngine.Application::get_isBatchMode
 UnityEngine.Application::get_isFocused
 UnityEngine.Application::get_isPlaying
 UnityEngine.Application::get_platform
+UnityEngine.AsyncOperation::InternalDestroy
 UnityEngine.Behaviour::get_enabled
 UnityEngine.Behaviour::get_isActiveAndEnabled
 UnityEngine.Behaviour::set_enabled
@@ -373,6 +375,7 @@ UnityEngine.Object::GetName
 UnityEngine.Object::ToString
 UnityEngine.Object::Destroy
 UnityEngine.Object::DestroyImmediate
+UnityEngine.Object::DontDestroyOnLoad
 UnityEngine.Object::SetName
 UnityEngine.Object::set_hideFlags
 UnityEngine.Object::get_hideFlags
@@ -463,6 +466,13 @@ UnityEngine.Resources::GetBuiltinResource
 UnityEngine.ResourcesAPIInternal::Load
 UnityEngine.ResourcesAPIInternal::FindShaderByName
 UnityEngine.Rigidbody2D::AddForce_Injected
+UnityEngine.Rigidbody2D::get_velocity_Injected
+UnityEngine.Rigidbody2D::set_velocity_Injected
+UnityEngine.SceneManagement.SceneManager::get_sceneCount
+UnityEngine.SceneManagement.SceneManager::GetActiveScene_Injected
+UnityEngine.SceneManagement.SceneManager::GetSceneAt_Injected
+UnityEngine.SceneManagement.SceneManager::GetSceneByName_Injected
+UnityEngine.SceneManagement.SceneManagerAPIInternal::LoadSceneAsyncNameIndexInternal_Injected
 UnityEngine.Screen::get_fullScreen
 UnityEngine.Screen::get_height
 UnityEngine.Screen::get_width
@@ -490,6 +500,7 @@ UnityEngine.Sprite::get_associatedAlphaSplitTexture
 UnityEngine.Sprite::get_texture
 UnityEngine.Sprite::get_uv
 UnityEngine.Sprite::get_vertices
+UnityEngine.SpriteRenderer::set_flipX
 UnityEngine.SystemInfo::IsFormatSupported
 UnityEngine.SystemInfo::SupportsTextureFormatNative
 UnityEngine.SystemInfo::GetMaxRenderTextureSize
@@ -572,6 +583,7 @@ UnityEngine.Transform::get_childCount
 UnityEngine.Transform::InverseTransformPoint_Injected
 UnityEngine.Transform::SetAsFirstSibling
 UnityEngine.Transform::SetParent
+UnityEngine.Transform::TransformDirection_Injected
 UnityEngine.Transform::TransformPoint_Injected
 UnityEngine.Transform::get_localPosition_Injected
 UnityEngine.Transform::get_localRotation_Injected
